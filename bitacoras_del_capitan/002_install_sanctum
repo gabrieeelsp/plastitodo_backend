@@ -1,0 +1,118 @@
+// Instalacion Laravel/sanctum
+composer require laravel/sanctum
+//php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
+php artisan migrate
+
+// Models/User.php
+->	use Laravel\Sanctum\HasApiTokens;
+->	use HasApiTokens, HasFactory, Notifiable;
+
+// Authentication
+docker-compose exec app php artisan make:controller api/v1/AuthController
+
+    use Illuminate\Support\Facades\Hash;
+    use App\Models\User;
+    use App\Http\Requests\v1\auth\LoginRequest;
+    use Illuminate\Support\Facades\Auth;
+
+    public function register(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::create([
+            'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
+            'password' => Hash::make($validatedData['password']),
+        ]);
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ]);
+    }
+
+    public function login(LoginRequest $request)
+    {
+        //return $request->all();
+        /* $validatedData = $request->validate([
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:8',
+        ]); */
+
+        if (!Auth::attempt($request->only('email', 'password'))) {
+            return response()->json([
+                'message' => 'Invalid login details'
+                ], 401);
+        }
+
+        $token = auth()->user()->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'Bearer',
+        ]);
+        
+    }
+
+    public function logout()
+    {
+        auth()->user()->tokens()->delete();
+
+        return [
+            'message' => 'Tokens Revoked'
+        ];
+    }
+
+    public function me(Request $request)
+    {
+        return [
+            "email" => $request->user()->email,
+            "name" => $request->user()->name,
+        ];
+        
+    }
+
+//LoginRequest
+docker-compose exec app php artisan make:request v1/auth/LoginRequest
+    public function rules()
+    {
+        return [
+            'email' => 'required|string|email|max:255',
+            'password' => 'required|string|min:8',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'password.min' => 'The password must be at least 8 characters.',
+            'password.required' => 'The Password field is required.',
+
+            'email.required' => 'The Email field is required.',
+            'email.email' => 'The email must be a valid email address.',
+        ];
+    }
+
+
+
+// routes/api.php
+use App\Http\Controllers\api\v1\AuthController;
+
+Route::prefix('v1')->group(static function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']);
+});
+
+Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'me']);
+});
+
+
+

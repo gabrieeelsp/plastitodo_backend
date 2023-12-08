@@ -1,0 +1,51 @@
+version: "3.7"
+services:
+    app:
+        build:
+            args:
+                user: sammy
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        image: plastitodo_back_v5
+        container_name: plastitodo_back_v5-app
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - .:/var/www
+        networks:
+            - plastitodo_back_v5
+
+    db:
+        image: mysql:5.7
+        container_name: plastitodo_back_v5-db
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: plastitodo_back_v5_db
+            MYSQL_ROOT_PASSWORD: 12345
+            MYSQL_PASSWORD: 12345
+            MYSQL_USER: docker_user
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - ./docker/mysql/data_db:/var/lib/mysql
+        networks:
+            - plastitodo_back_v5
+
+    nginx:
+        image: nginx:alpine
+        container_name: plastitodo_back_v5-nginx
+        restart: unless-stopped
+        ports:
+            - 8000:80
+            - 8443:443
+        volumes:
+            - .:/var/www
+            - ./docker/nginx:/etc/nginx/conf.d/
+        networks:
+            - plastitodo_back_v5
+
+networks:
+    plastitodo_back_v5:
+        driver: bridge
+#https://www.digitalocean.com/community/tutorials/how-to-install-and-set-up-laravel-with-docker-compose-on-ubuntu-20-04-es

@@ -1,0 +1,25 @@
+-> en docker-compose.yml
+	-> cambiar todos los laravel_8_base por el nombre de la aplicacion
+
+-> crear carpeta ./docker/mysql
+
+-> move .env.docker -> .env
+-> .env
+	-> modificar base de datos mysql
+
+-> crear proyecto github
+
+-> git remote set-url origin https://github.com/gabrieeelsp/plastitodo_back-v1.git
+
+-> git add .
+
+-> git commit -m "First commit"
+
+-> git push -u origin main
+
+
+-> docker-compose up -d
+
+-> docker-compose exec app composer install
+
+-> docker-compose exec app php artisan [...]
