@@ -1,9 +1,9 @@
 #!/bin/sh
 
-BACKUPFOLDER=~/Dropbox/backup/
+DEPLOYFOLDER=/root/plastitodo/deploy-2023-12-08/plastitodo_backend
+BACKUPFOLDER=~/Dropbox/backup/images
 FILE=`date +"%Y-%m-%d-%H-%M"`-plastitodo_images
 
 mkdir -p $BACKUPFOLDER
 
-tar -zcf ${BACKUPFOLDER}${FILE}.tar.gz ../public/images/
-
+tar -zcf ${BACKUPFOLDER}/${FILE}.tar.gz ${DEPLOYFOLDER}/public/images/
