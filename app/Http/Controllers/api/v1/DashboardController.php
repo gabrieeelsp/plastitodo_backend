@@ -24,16 +24,19 @@ class DashboardController extends Controller
         if ( $request->has('sucursal_id')){
             array_push($atr, ['sucursal_id', '=', $request->get('sucursal_id')] );
         }
-        
+
+        if ( auth()->user()->role == 'VENDEDOR' ) {
+            array_push($atr, ['user_id', '=', auth()->user()->id] );
+        }
         
         if ( $range == "month" ) {
-            $ventas = Sale::where('created_at', '>=', Carbon::now()->startOfMonth()->subMonth()->toDateString())
+            $ventas = Sale::where('created_at', '>=', Carbon::now()->startOfMonth()->toDateString())
                 ->where($atr)
                 ->get();  
         }
         else {
-            $from = (new Carbon)->now()->subDays(7)->format('Y-m-d')." 00:00:00";
-            $to = (new Carbon)->now()->subDays(7)->format('Y-m-d')." 23:59:59";
+            $from = (new Carbon)->now()->subDays(0)->format('Y-m-d')." 00:00:00";
+            $to = (new Carbon)->now()->subDays(0)->format('Y-m-d')." 23:59:59";
             //return [$from, $to];
             $ventas = Sale::whereBetween('created_at', [$from, $to])
                 ->where($atr)
@@ -55,10 +58,10 @@ class DashboardController extends Controller
         $venta_total_mayorista = 0;
         $venta_total_minorista = 0;
 
+
         foreach ( $ventas as $venta ) {
             $total = $venta->total;
             $facturacion = 0;
-
             
             if ( $venta->comprobante ) {
                 $facturacion = round($facturacion + $venta->total, 2, PHP_ROUND_HALF_UP);
