@@ -114,6 +114,10 @@ Route::middleware(['cors'])->prefix('v1')->group(static function () {
     Route::get('get_familias_select', [FamiliaController::class, 'get_familias_select']);
 
     Route::get('get_stockproducts_order_by_stock', [StockproductController::class, 'get_stockproducts_order_by_stock']);
+
+    Route::get('get_catalogo_by_key/{key}', [CatalogoController::class, 'get_by_key']);
+    Route::resource('catalogos', CatalogoController::class)->only('show');
+
 });
 
 Route::middleware(['auth:sanctum', 'cors'])->prefix('v1')->group(function () {
@@ -187,7 +191,7 @@ Route::middleware(['auth:sanctum', 'cors'])->prefix('v1')->group(function () {
     Route::resource('tags', TagController::class)->only(['index', 'update', 'show', 'store']);
 
     Route::get('get_catalogos_select', [CatalogoController::class, 'get_catalogos_select']);
-    Route::resource('catalogos', CatalogoController::class)->only(['index', 'update', 'show', 'store']);
+    Route::resource('catalogos', CatalogoController::class)->only(['index', 'update', 'store']);
 
     Route::get('inicio_data', [InicioController::class, 'inicio_data']);
 
