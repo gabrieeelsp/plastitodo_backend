@@ -1,7 +1,7 @@
 #!/bin/sh
 
-DEPLOYFOLDER=/root/plastitodo/deploy-2023-12-08/plastitodo_backend
-BACKUPFOLDER=~/Dropbox/backup/db
+DEPLOYFOLDER=/root/server/plastitodo-prod.backhub.net.ar
+BACKUPFOLDER=~/Dropbox/backup/plastitodo-prod/db
 FILE=`date +"%Y-%m-%d-%H-%M"`-plastitodo_db.sql
 DBSERVER=localhost
 DBNAME=plastitodo_back_v5_db
