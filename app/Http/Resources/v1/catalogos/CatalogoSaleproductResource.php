@@ -31,7 +31,7 @@ class CatalogoSaleproductResource extends JsonResource
                 'precision_may' => $this->precision_may,
 
                 'desc_min' => $this->desc_min,
-                'desc_may' => $this->desc_may,
+                // 'desc_may' => $this->desc_may,
                 'fecha_desc_desde' => $this->fecha_desc_desde,
                 'fecha_desc_hasta' => $this->fecha_desc_hasta,
 
