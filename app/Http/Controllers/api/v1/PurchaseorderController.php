@@ -181,6 +181,8 @@ class PurchaseorderController extends Controller
 
             $purchaseorder->save();
 
+            $purchaseorder->refresh();
+
 
             if ( $is_confirmar ) {
 
