@@ -35,6 +35,7 @@ class SaleproductController extends Controller
             array_push($atr, ['name', 'LIKE', '%'.strtolower($q).'%']);
         }
         
+<<<<<<< HEAD
         
 	if ( $request->has('is_enable')) {
 	    if (filter_var($request->get('is_enable'), FILTER_VALIDATE_BOOL)) {
@@ -43,6 +44,16 @@ class SaleproductController extends Controller
 		array_push($atr, ['is_enable', false]);
 	    }
 	}
+=======
+        if ( $request->has('is_enable')) {
+            if (filter_var($request->get('is_enable'), FILTER_VALIDATE_BOOL)) {
+                array_push($atr, ['is_enable', true]);
+            } else {
+                array_push($atr, ['is_enable', false]);
+            }
+        }
+
+>>>>>>> ee958a6682413aa0298ce1e116b5e421d135ed46
 
         $limit = 5;
         if($request->has('limit')){

@@ -19,7 +19,11 @@ class CatalogoResource extends JsonResource
             'type' => 'catalogos',
             'attributes' => [
                 'name' => $this->name,
+<<<<<<< HEAD
                 'key' => $this->key,
+=======
+                'key' => $this->key,             
+>>>>>>> ee958a6682413aa0298ce1e116b5e421d135ed46
 		        'color' => $this->color,
                 'comments' => $this->comments ? $this->comments :  '',
             ],

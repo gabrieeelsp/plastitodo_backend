@@ -36,22 +36,26 @@ services:
             #proxy_network:
             #    ipv4_address: ${IPV4_DB}
 
-
     nginx:
         image: nginx:alpine
         container_name: plastitodo_back_v5-nginx
         restart: unless-stopped
         #LOCAL
         ports:
+<<<<<<< HEAD
             - 8030:80
             #- 8443:443
+=======
+            - 8000:80
+            # - 8443:443
+>>>>>>> ee958a6682413aa0298ce1e116b5e421d135ed46
         volumes:
             - .:/var/www
             - ./docker/nginx:/etc/nginx/conf.d/
         networks:
             plastitodo_back_v5:
         #proxy_network:
-            #    ipv4_address: ${IPV4_APP}
+        #    ipv4_address: ${IPV4_APP}
 
 networks:
     plastitodo_back_v5:
@@ -59,5 +63,4 @@ networks:
     #proxy_network: #REMOTE
     #    name: nginx_proxy_network #REMOTE
     #    external: true #REMOTE
-
 #https://www.digitalocean.com/community/tutorials/how-to-install-and-set-up-laravel-with-docker-compose-on-ubuntu-20-04-es

@@ -157,11 +157,19 @@ class PurchaseorderController extends Controller
         try {
             DB::beginTransaction();
 
+<<<<<<< HEAD
 	    foreach ( $purchaseorder->purchaseorderitems as $poi ) {
 		$poi->cantidad = 0;
 		$poi->save();
 	    }
  
+=======
+            foreach ( $purchaseorder->purchaseorderitems as $poi ) {
+               $poi->cantidad = 0;
+               $poi->save();
+           }
+
+>>>>>>> ee958a6682413aa0298ce1e116b5e421d135ed46
             $data = $request->get('data');
             // return $data['relationships']['purchaseorderitems'];
             foreach ( $data['relationships']['purchaseorderitems'] as $poi ) {
@@ -180,7 +188,11 @@ class PurchaseorderController extends Controller
 
             $purchaseorder->save();
 
+<<<<<<< HEAD
 	    $purchaseorder->refresh();
+=======
+            $purchaseorder->refresh();
+>>>>>>> ee958a6682413aa0298ce1e116b5e421d135ed46
 
 
             if ( $is_confirmar ) {
