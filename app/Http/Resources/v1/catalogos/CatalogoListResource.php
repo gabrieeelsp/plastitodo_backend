@@ -18,14 +18,9 @@ class CatalogoListResource extends JsonResource
             'id' => $this->id,
             'type' => 'catalogos',
             'attributes' => [
-                'name' => $this->name,                
-<<<<<<< HEAD
+                'name' => $this->name,
 		'color' => $this->color,
 		'key' => $this->key,
-=======
-		        'color' => $this->color,
-                'key' => $this->key,
->>>>>>> ee958a6682413aa0298ce1e116b5e421d135ed46
                 'comments' => $this->comments ? $this->comments :  '',
             ],
             'relationships' => [
