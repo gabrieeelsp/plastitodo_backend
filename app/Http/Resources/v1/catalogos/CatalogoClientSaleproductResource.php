@@ -4,7 +4,7 @@ namespace App\Http\Resources\v1\catalogos;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CatalogoSaleproductResource extends JsonResource
+class CatalogoClientSaleproductResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -26,16 +26,16 @@ class CatalogoSaleproductResource extends JsonResource
                 'precio_min' => $this->precio_min,
                 'precision_min' => $this->precision_min,
 
-                // 'porc_may' => $this->porc_may,
-                // 'precio_may' => $this->precio_may,
+                'porc_may' => $this->porc_may,
+                'precio_may' => $this->precio_may,
                 'precision_may' => $this->precision_may,
 
                 'desc_min' => $this->desc_min,
-                // 'desc_may' => $this->desc_may,
+                'desc_may' => $this->desc_may,
                 'fecha_desc_desde' => $this->fecha_desc_desde,
                 'fecha_desc_hasta' => $this->fecha_desc_hasta,
 
-                // 'barcode' => $this->barcode,
+                'barcode' => $this->barcode,
 
                 'image1'     => $this->image1 ? asset($this->image1) : null,
                 'image2'     => $this->image2 ? asset($this->image2) : null,
@@ -49,7 +49,7 @@ class CatalogoSaleproductResource extends JsonResource
                     'type' => 'stockproducts',
                     'attributes' => [
                         'name' => $this->stockproduct->name,
-                        // 'costo' => $this->stockproduct->costo,
+                        'costo' => $this->stockproduct->costo,
                         'is_stock_unitario_variable' => $this->stockproduct->is_stock_unitario_variable,
                         'stock_aproximado_unidad' => $this->stockproduct->stock_aproximado_unidad,
                         'stock' => $this->stockproduct->getStockTotal(),

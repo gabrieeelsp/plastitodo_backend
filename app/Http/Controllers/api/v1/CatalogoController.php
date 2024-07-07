@@ -85,6 +85,12 @@ class CatalogoController extends Controller
         return new CatalogoResource($catalogo);
     }
 
+    public function get_by_key(Request $request, $key) 
+    {
+    	$catalogo = Catalogo::where('key', '=', $key)->first();
+		return new CatalogoResource($catalogo);
+    }
+
     /**
      * Update the specified resource in storage.
      *
