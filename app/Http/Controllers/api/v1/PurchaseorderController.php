@@ -152,19 +152,18 @@ class PurchaseorderController extends Controller
      */
     public function update(Request $request, Purchaseorder $purchaseorder)
     {
-
         $is_confirmar = $request->get('data')['meta']['is_confirmar'];
         
         try {
             DB::beginTransaction();
 
-            foreach ( $purchaseorder->purchaseorderitems as $poi ) {
-               $poi->cantidad = 0;
-               $poi->save();
-           }
+	    foreach ( $purchaseorder->purchaseorderitems as $poi ) {
+		$poi->cantidad = 0;
+		$poi->save();
+	    }
 
             $data = $request->get('data');
-            //return $data['relationships']['purchaseorderitems'];
+            // return $data['relationships']['purchaseorderitems'];
             foreach ( $data['relationships']['purchaseorderitems'] as $poi ) {
                 $purchaseorderitem = Purchaseorderitem::findOrFail($poi['id']);
                 $purchaseorderitem->cantidad = $poi['cantidad'];
@@ -181,8 +180,7 @@ class PurchaseorderController extends Controller
 
             $purchaseorder->save();
 
-            $purchaseorder->refresh();
-
+	    $purchaseorder->refresh();
 
             if ( $is_confirmar ) {
 

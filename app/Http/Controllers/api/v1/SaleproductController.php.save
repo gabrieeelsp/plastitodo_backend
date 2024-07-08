@@ -41,7 +41,7 @@ class SaleproductController extends Controller
         }
 
         $limit = 5;
- request->has('limit')){xit
+	if(request->has('limit')){
             $limit = $request->get('limit');
         }
 

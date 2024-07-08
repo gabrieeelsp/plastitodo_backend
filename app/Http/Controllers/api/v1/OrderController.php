@@ -265,8 +265,7 @@ class OrderController extends Controller
     
     public function update(Request $request, Order $order)
     {
-        
-	    $event = $request->get('evento');
+        $event = $request->get('evento');
 
 	if (  $event == 'CANCELAR' && $order->state == 'FACTURADO' ) {
             $order->state = 'CANCELADO';

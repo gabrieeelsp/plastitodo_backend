@@ -42,8 +42,9 @@ services:
         restart: unless-stopped
         #LOCAL
         ports:
-            - 8000:80
-            # - 8443:443
+            - 8030:80
+            #- 8443:443
+
         volumes:
             - .:/var/www
             - ./docker/nginx:/etc/nginx/conf.d/

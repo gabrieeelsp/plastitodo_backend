@@ -117,7 +117,6 @@ Route::middleware(['cors'])->prefix('v1')->group(static function () {
 
     Route::get('get_catalogo_by_key/{key}', [CatalogoController::class, 'get_by_key']);
     Route::resource('catalogos', CatalogoController::class)->only('show');
-
 });
 
 Route::middleware(['auth:sanctum', 'cors'])->prefix('v1')->group(function () {

@@ -4,7 +4,7 @@ namespace App\Http\Resources\v1\catalogos;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CatalogoListResource extends JsonResource
+class CatalogoClientResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,14 +19,14 @@ class CatalogoListResource extends JsonResource
             'type' => 'catalogos',
             'attributes' => [
                 'name' => $this->name,
+                'key' => $this->key,
 		'color' => $this->color,
-		'key' => $this->key,
                 'comments' => $this->comments ? $this->comments :  '',
             ],
             'relationships' => [
-                'saleproducts' => null,
-                'clients' => null,
-            ],
-        ]; 
+                'saleproducts' => CatalogoClientSaleproductResource::collection($this->saleproducts),
+                // 'clients' => CatalogoUserResource::collection($this->users),
+            ]
+        ];
     }
 }

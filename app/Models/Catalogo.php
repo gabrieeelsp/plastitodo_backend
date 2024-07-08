@@ -14,6 +14,7 @@ class Catalogo extends Model
     public $fillable = [
         'name',
         'color',
+	'key',
         'comments',
     ];
 
