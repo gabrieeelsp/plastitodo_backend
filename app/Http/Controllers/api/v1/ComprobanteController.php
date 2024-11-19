@@ -261,7 +261,7 @@ class ComprobanteController extends Controller
             'CbteDesde' => $numero_comprobante,  // Número de comprobante o numero del primer comprobante en caso de ser mas de uno
             'CbteHasta' => $numero_comprobante,  // Número de comprobante o numero del último comprobante en caso de ser mas de uno
             'CbteFch' 	=> intval($date), // (Opcional) Fecha del comprobante (yyyymmdd) o fecha actual si es nulo
-            'ImpTotal' 	=> floatval(round($sale->total, 2, PHP_ROUND_HALF_UP)), // Importe total del comprobante
+            'ImpTotal' 	=> round(floatval(round($sale->total, 2, PHP_ROUND_HALF_UP)), 2, PHP_ROUND_HALF_UP), // Importe total del comprobante
 
 
             'ImpTotConc' 	=> $ImpTotConc,   // Importe neto no gravado
@@ -402,7 +402,7 @@ class ComprobanteController extends Controller
             'CbteDesde' => $numero_comprobante,  // Número de comprobante o numero del primer comprobante en caso de ser mas de uno
             'CbteHasta' => $numero_comprobante,  // Número de comprobante o numero del último comprobante en caso de ser mas de uno
             'CbteFch' 	=> intval($date), // (Opcional) Fecha del comprobante (yyyymmdd) o fecha actual si es nulo
-            'ImpTotal' 	=> floatval($devolution->total), // Importe total del comprobante
+            'ImpTotal' 	=> round(floatval($devolution->total), 2, PHP_ROUND_HALF_UP), // Importe total del comprobante
 
 
             'ImpTotConc' 	=> $ImpTotConc,   // Importe neto no gravado
@@ -553,7 +553,7 @@ class ComprobanteController extends Controller
             'CbteDesde' => $numero_comprobante,  // Número de comprobante o numero del primer comprobante en caso de ser mas de uno
             'CbteHasta' => $numero_comprobante,  // Número de comprobante o numero del último comprobante en caso de ser mas de uno
             'CbteFch' 	=> intval($date), // (Opcional) Fecha del comprobante (yyyymmdd) o fecha actual si es nulo
-            'ImpTotal' 	=> floatval($creditnote->total), // Importe total del comprobante
+            'ImpTotal' 	=> round(floatval($creditnote->total), 2, PHP_ROUND_HALF_UP), // Importe total del comprobante
 
 
             'ImpTotConc' 	=> $ImpTotConc,   // Importe neto no gravado
@@ -702,7 +702,7 @@ class ComprobanteController extends Controller
             'CbteDesde' => $numero_comprobante,  // Número de comprobante o numero del primer comprobante en caso de ser mas de uno
             'CbteHasta' => $numero_comprobante,  // Número de comprobante o numero del último comprobante en caso de ser mas de uno
             'CbteFch' 	=> intval($date), // (Opcional) Fecha del comprobante (yyyymmdd) o fecha actual si es nulo
-            'ImpTotal' 	=> floatval($debitnote->total), // Importe total del comprobante
+            'ImpTotal' 	=> round(floatval($debitnote->total), 2, PHP_ROUND_HALF_UP), // Importe total del comprobante
 
 
             'ImpTotConc' 	=> $ImpTotConc,   // Importe neto no gravado
