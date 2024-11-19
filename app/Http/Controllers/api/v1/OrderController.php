@@ -807,7 +807,7 @@ class OrderController extends Controller
             'CbteDesde' => $numero_comprobante,  // Número de comprobante o numero del primer comprobante en caso de ser mas de uno
             'CbteHasta' => $numero_comprobante,  // Número de comprobante o numero del último comprobante en caso de ser mas de uno
             'CbteFch' 	=> intval($date), // (Opcional) Fecha del comprobante (yyyymmdd) o fecha actual si es nulo
-            'ImpTotal' 	=> floatval($sale->total), // Importe total del comprobante
+            'ImpTotal' 	=> round(floatval($sale->total), 2, PHP_ROUND_HALF_UP), // Importe total del comprobante
 
 
             'ImpTotConc' 	=> $ImpTotConc,   // Importe neto no gravado

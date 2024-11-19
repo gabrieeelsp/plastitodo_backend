@@ -12,6 +12,7 @@ use App\Http\Resources\v1\catalogos\CatalogoListResource;
 use App\Http\Resources\v1\catalogos\CatalogoResource;
 
 use App\Http\Requests\v1\catalogos\CreateCatalogoRequest;
+use Illuminate\Support\Str;
 
 class CatalogoController extends Controller
 {
@@ -66,8 +67,15 @@ class CatalogoController extends Controller
     public function store(CreateCatalogoRequest $request)
     {
         $data = $request->get('data');
+	$attributes = $data['attributes'];
 
-        $catalogo = Catalogo::create($request->input('data.attributes'));
+        $key = Str::lower(Str::random(5));
+
+        $attributes['key'] = $key;
+
+	// return $attributes;
+
+        $catalogo = Catalogo::create($attributes);
 
         $catalogo->save();
 
