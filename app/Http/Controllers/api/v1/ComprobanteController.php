@@ -18,6 +18,7 @@ use App\Http\Resources\v1\sales\ComprobanteSaleResource;
 use Carbon\Carbon;
 
 use Afip;
+use Illuminate\Support\Facades\Log;
 
 class ComprobanteController extends Controller
 {
@@ -360,9 +361,13 @@ class ComprobanteController extends Controller
         $ImpNeto = 0;
         $ImpTotConc = 0;
         $ImpOpEx = 0;
-        $ivaaliquots_send = array();
+	$ivaaliquots_send = array();
+	Log::info('Base imponible');
         foreach(Ivaaliquot::all() as $ivaaliquot){
-            $baseImpIva = $devolution->getBaseImpIva($ivaaliquot->id);            
+		$baseImpIva = $devolution->getBaseImpIva($ivaaliquot->id);
+		Log::error('Base imponible');
+		Log::error($baseImpIva);
+		Log::warning($ivaaliquot);		
             if ( $baseImpIva ){
 
                 if ($ivaaliquot->id_afip != 1 && $ivaaliquot->id_afip != 2) {
@@ -384,9 +389,15 @@ class ComprobanteController extends Controller
                 }
             }
         }
-
-
-        $ImpIVA = round($devolution->total - ($ImpTotConc + $ImpOpEx + $ImpNeto), 2, PHP_ROUND_HALF_UP);
+	Log::info('--------------------------------------------------------------------------------------');
+	Log::warning('Import de iva: ');
+	Log::error($devolution->total);
+		
+	$ImpIVA = round($devolution->total - ($ImpTotConc + $ImpOpEx + $ImpNeto), 2, PHP_ROUND_HALF_UP);
+	Log::error($ImpTotConc);
+	Log::error($ImpOpEx);
+	Log::warning($ImpNeto);
+	Log::error($ImpIVA);
 
         $date = $devolution->created_at->format('Ymd');
 
@@ -422,7 +433,7 @@ class ComprobanteController extends Controller
                     )
                 ),
         );
-        //return $data;
+        // return $data;
         $res = $afip->ElectronicBilling->CreateVoucher($data, false);
         try {
             

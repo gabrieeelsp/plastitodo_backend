@@ -52,6 +52,19 @@ services:
             plastitodo_back_v5:
         #proxy_network:
         #    ipv4_address: ${IPV4_APP}
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        container_name: plastitodo_back_v5-phpmyadmin
+        restart: unless-stopped
+        environment:
+            PMA_HOST: db
+            PMA_PORT: 3306
+            PMA_USER: docker_user
+            PMA_PASSWORD: 12345
+        ports:
+            - 8031:80
+        networks:
+            plastitodo_back_v5:
 
 networks:
     plastitodo_back_v5:

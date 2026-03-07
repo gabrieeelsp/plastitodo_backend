@@ -1,7 +1,7 @@
 #!/bin/sh
 
 DEPLOYFOLDER=/root/server/plastitodo-prod.backhub.net.ar
-BACKUPFOLDER=~/Dropbox/backup/plastitodo-prod/db
+BACKUPFOLDER=~/Dropbox/backup-backhub.net.ar/plastitodo-prod/db
 FILE=`date +"%Y-%m-%d-%H-%M"`-plastitodo_db.sql
 DBSERVER=localhost
 DBNAME=plastitodo_back_v5_db
@@ -18,8 +18,8 @@ docker compose exec db /usr/bin/mysqldump -u root -p12345 ${DBNAME} > ${FILE} 2>
 gzip $FILE
 
 mkdir -p $BACKUPFOLDER
-rm ${BACKUPFOLDER}/*
-#rm *db.sql.gz
+
+echo ${BACKUPFOLDER}/${FILE}
 mv ${FILE}.gz ${BACKUPFOLDER}/${FILE}.gz
 echo "${FILE}.gz was created:"
-#ls -l ${FILE}.gz
+ls -1t ${BACKUPFOLDER}/*.sql.gz | tail -n +4 | xargs -r rm --

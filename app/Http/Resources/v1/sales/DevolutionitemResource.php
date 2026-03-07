@@ -22,6 +22,8 @@ class DevolutionitemResource extends JsonResource
                 'precio' => $this->saleitem->precio,
                 'saleitem_id' => $this->saleitem_id,
                 'is_stock_unitario_variable' => $this->saleitem->saleproduct->stockproduct->is_stock_unitario_variable,
+                'relacion_venta_stock' => $this->saleitem->saleproduct->relacion_venta_stock,
+                'stock_aproximado_unidad' => $this->saleitem->saleproduct->stockproduct->stock_aproximado_unidad,
                 'cantidad_total' => $this->cantidad_total,
                 'name' => $this->saleitem->saleproduct->name
             ],
