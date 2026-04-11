@@ -25,13 +25,6 @@ class Devolutionitem extends Model
 
     public function get_subtotal()
     {
-    	Log::info('saleItem->precio');
-    	Log::info($this->saleItem->precio);
-    	Log::info('cantidad_total');
-    	Log::info($this->cantidad_total);
-    	Log::info('SubTotal');
-    	Log::info($this->saleitem->precio * $this->cantidad_total);
-    	Log::info(round($this->saleitem->precio * $this->cantidad_total, 4, PHP_ROUND_HALF_UP));
         if($this->saleitem->saleproduct->stockproduct->is_stock_unitario_variable){
         	return round((($this->saleItem->precio / $this->saleItem->saleproduct->stockproduct->stock_aproximado_unidad ) / $this->saleItem->saleproduct->relacion_venta_stock ) * $this->cantidad_total, 4, PHP_ROUND_HALF_UP);
         }else {
@@ -46,8 +39,6 @@ class Devolutionitem extends Model
 
     public function getImpIva ( ) 
     {
-    	Log::info('Importe neto:');
-    	Log::info($this->getImpNeto());
         return round($this->get_subtotal() - $this->getImpNeto(), 4, PHP_ROUND_HALF_UP);
     }
 }

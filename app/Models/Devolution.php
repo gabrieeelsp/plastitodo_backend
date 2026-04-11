@@ -42,11 +42,8 @@ class Devolution extends Model
     public function getBaseImpIva($ivaaliquot_id)
     {
         $baseImpIva = 0;
-        Log::info('Devolution.php -> getBaseImpIva: ');
         foreach ( $this->devolutionitems as $devItem ) {
             if ( $devItem->saleitem->ivaaliquot->id == $ivaaliquot_id ){
-            	//Log::info($devItem)
-            	// Log::info('Devolution.php -> getBaseImpIva: $devItem->getImpNeto()' . $devItem->getImpNeto());
                 $baseImpIva = round($baseImpIva + $devItem->getImpNeto(), 2, PHP_ROUND_HALF_UP);
             }            
         }  

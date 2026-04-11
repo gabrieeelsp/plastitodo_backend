@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Support\Facades\Log;
+
 class Sale extends Model
 {
     use HasFactory;
@@ -81,17 +83,71 @@ class Sale extends Model
 
     public function get_subtotal_real_segun_iva($ivaaliquot_id)
     {
+        Log::info('Sale@get_subtotal_iva - inicio', [
+            'sale_id' => $this->id,
+            'ivaaliquot_id' => $ivaaliquot_id
+        ]);
+
         $subtotal_real = 0;
+
         foreach($this->saleitems as $item){
+
+            Log::info('Sale@get_subtotal_iva - evaluando saleitem', [
+                'sale_id' => $this->id,
+                'saleitem_id' => $item->id,
+                'ivaaliquot_item' => $item->ivaaliquot_id
+            ]);
+
             if($item->ivaaliquot_id == $ivaaliquot_id){
-                $subtotal_real = round($subtotal_real + $item->get_subtotal_real(), 4, PHP_ROUND_HALF_UP);
+
+                $subtotal_item = $item->get_subtotal_real();
+
+                Log::info('Sale@get_subtotal_iva - subtotal item agregado', [
+                    'saleitem_id' => $item->id,
+                    'subtotal_item' => $subtotal_item
+                ]);
+
+                $subtotal_real = round(
+                    $subtotal_real + $subtotal_item,
+                    4,
+                    PHP_ROUND_HALF_UP
+                );
+
+                Log::info('Sale@get_subtotal_iva - subtotal acumulado', [
+                    'subtotal_real' => $subtotal_real
+                ]);
             }
-            
         }
 
+        Log::info('Sale@get_subtotal_iva - subtotal acumulado', [
+            'subtotal_real_acumulado' => $subtotal_real
+        ]);
+
         foreach($this->creditnotes as $creditnote){
-            $subtotal_real = round($subtotal_real - $creditnote->get_subtotal_segun_iva($ivaaliquot_id));
+
+            $subtotal_creditnote = $creditnote->get_subtotal_segun_iva($ivaaliquot_id);
+
+            Log::info('Sale@get_subtotal_iva - descontando creditnote', [
+                'creditnote_id' => $creditnote->id,
+                'subtotal_creditnote' => $subtotal_creditnote
+            ]);
+
+            $subtotal_real = round(
+                $subtotal_real - $subtotal_creditnote,
+                4,
+                PHP_ROUND_HALF_UP
+            );
+
+            Log::info('Sale@get_subtotal_iva - subtotal luego de creditnote', [
+                'subtotal_real' => $subtotal_real
+            ]);
         }
+
+        Log::info('Sale@get_subtotal_iva - resultado final', [
+            'sale_id' => $this->id,
+            'ivaaliquot_id' => $ivaaliquot_id,
+            'subtotal_real' => $subtotal_real
+        ]);
 
         return $subtotal_real;
     }

@@ -60,10 +60,8 @@ class DebitnoteController extends Controller
             $items = $data['relationships']['debinoteitems'];
             foreach($items as $item){
 		    //velrifico que tenga ese saldo para descontar referido al ivaaliquot_id
-		Log::info($item['valor']);
-		Log::error($sale->get_subtotal_real_segun_iva($item['ivaaliquot_id']));
                 if($item['valor'] < $sale->get_subtotal_real_segun_iva($item['ivaaliquot_id'])) {
-                    return response()->json(['message' => 'No se puede generar una nota de dÃbito por el valor seleccionado'], 422);
+                    return response()->json(['message' => 'No se puede generar una nota de dï¿½bito por el valor seleccionado'], 422);
                 }
                 
                 $debitnoteItem = Debitnoteitem::create();

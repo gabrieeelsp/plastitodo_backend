@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Resources\v1\sales\CreditnoteSaleResource;
 
+use Illuminate\Support\Facades\Log;
 
 class CreditnoteController extends Controller
 {
@@ -34,6 +35,7 @@ class CreditnoteController extends Controller
      */
     public function store(Request $request)
     {
+        Log::info('CreditnoteController@store - request recibido', $request->all());
         $data = $request->get('data');
         try {
             DB::beginTransaction();
@@ -43,11 +45,19 @@ class CreditnoteController extends Controller
             $creditnote->sucursal()->associate($data['relationships']['sucursal']['data']['id']);
 
             $sale = Sale::findOrFail($data['relationships']['sale']['data']['id']);
+            Log::info('CreditnoteController@store - venta encontrada', [
+                'sale_id' => $sale->id,
+                'saldo_sale' => $sale->saldo_sale
+            ]);
             $creditnote->sale()->associate($sale);
 
             $creditnote->total = $data['attributes']['total'];
 
             if($sale->client){
+                Log::info('CreditnoteController@store - cliente asociado a la venta', [
+                    'client_id' => $sale->client->id,
+                    'saldo_actual' => $sale->client->saldo
+                ]);
                 $saldo_cliente = $sale->client->saldo;
                 $saldo_cliente = round($saldo_cliente - $creditnote->total, 6, PHP_ROUND_HALF_UP);
                 $creditnote->saldo = $saldo_cliente;
@@ -57,9 +67,25 @@ class CreditnoteController extends Controller
             }
 
             $items = $data['relationships']['creditnoteitems'];
+
+            Log::info('CreditnoteController@store - items recibidos', [
+                'items' => $items
+            ]);
             foreach($items as $item){
+                $subtotal_real = $sale->get_subtotal_real_segun_iva($item['ivaaliquot_id']);
+
+                Log::info('CreditnoteController@store - validando item', [
+                    'ivaaliquot_id' => $item['ivaaliquot_id'],
+                    'valor_item' => $item['valor'],
+                    'subtotal_real' => $subtotal_real
+                ]);
                 //velrifico que tenga ese saldo para descontar referido al ivaaliquot_id
                 if($item['valor'] > $sale->get_subtotal_real_segun_iva($item['ivaaliquot_id'])) {
+                    Log::warning('CreditnoteController@store - validacion fallida', [
+                        'ivaaliquot_id' => $item['ivaaliquot_id'],
+                        'valor_item' => $item['valor'],
+                        'subtotal_real' => $subtotal_real
+                    ]);
                     return response()->json(['message' => 'No se puede generar una nota de credito por el valor seleccionado'], 422);
                 }
                 
